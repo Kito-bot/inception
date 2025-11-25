@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb:ychattou
+    container_name: mariadb
+    build: ./mariadb
+    volumes:
+      - mariadb:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      - inception
+    restart: always
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "mariadb", "3306"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    image: wordpress:ychattou
+    container_name: wordpress
+    build: ./wordpress
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - wordpress:/var/www/wordpress
+    env_file:
+      - .env
+    networks:
+      - inception
+    restart: always
+
+  nginx:
+    image: nginx:ychattou
+    container_name: nginx
+    build: ./nginx
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception
+    restart: always
+
+volumes:
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      device: /home/data/mariadb
+      o: bind
+      type: none
+
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      device: /home/data/wordpress
+      o: bind
+      type: none
+
+networks:
+  inception:
+    name: inception
