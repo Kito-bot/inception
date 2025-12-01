@@ -4,7 +4,7 @@ services:
   mariadb:
     image: mariadb:ychattou
     container_name: mariadb
-    build: ./mariadb
+    build: ./requirements/mariadb
     volumes:
       - mariadb:/var/lib/mysql
     env_file:
@@ -21,7 +21,7 @@ services:
   wordpress:
     image: wordpress:ychattou
     container_name: wordpress
-    build: ./wordpress
+    build: ./requirements/wordpress
     depends_on:
       mariadb:
         condition: service_healthy
@@ -36,7 +36,7 @@ services:
   nginx:
     image: nginx:ychattou
     container_name: nginx
-    build: ./nginx
+    build: ./requirements/nginx
     depends_on:
       - wordpress
     ports:
