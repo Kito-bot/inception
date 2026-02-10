@@ -60,7 +60,7 @@ volumes:
     name: wordpress
     driver: local
     driver_opts:
-      device: /home/ychattou/wordpress
+      device: /home/ychattou/data/wordpress
       o: bind
       type: none
 
