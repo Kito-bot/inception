@@ -13,11 +13,11 @@ sleep 5
 
 #---------------------------------------------------mariadb config---------------------------------------------------#
 
-mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
-mariadb -e "FLUSH PRIVILEGES;"
 mariadb -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DB}\`;"
 mariadb -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
 mariadb -e "GRANT ALL PRIVILEGES ON ${MYSQL_DB}.* TO \`${MYSQL_USER}\`@'%';"
+mariadb -e "FLUSH PRIVILEGES;"
+mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
 mariadb -e "FLUSH PRIVILEGES;"
 
 #---------------------------------------------------mariadb restart---------------------------------------------------#
