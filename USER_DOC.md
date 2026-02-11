@@ -51,17 +51,10 @@ docker-compose -f ./srcs/docker-compose.yml down
 
 ## Accessing the Website
 
-### From the host machine (your main computer)
-Open your browser and go to:
-```
-https://192.168.56.x
-```
-> Replace `192.168.56.x` with your VM's host-only adapter IP (found with `ip a` on the VM, under `enp0s8`).
-
 ### From inside the VM
-If `login.42.fr` is added to `/etc/hosts`:
+`https://ychattou.42.fr`:
 ```
-https://login.42.fr
+or https://login.42.fr if the login is changed.
 ```
 
 > You will see a **security warning** in your browser because the certificate is self-signed. This is expected — click **Advanced → Proceed** to continue.
@@ -79,47 +72,15 @@ curl http://192.168.56.x:80
 ---
 
 ## Accessing the Administration Panel
-
-### WordPress Admin Dashboard
 ```
-https://192.168.56.x/wp-admin
-```
-Or from inside the VM:
-```
-https://login.42.fr/wp-admin
+https://ychattou.42.fr/wp-admin
 ```
 
 ---
 
 ## Credentials
 
-All credentials are stored in `srcs/.env`. Here is what each one is for:
-
-### WordPress Administrator
-| Field    | Value                          |
-|----------|--------------------------------|
-| Username | `supervisor42`                 |
-| Password | `SuperPass42!`                 |
-| Email    | `super@login.42.fr`            |
-| Role     | Administrator (full access)    |
-
-### WordPress Editor
-| Field    | Value                          |
-|----------|--------------------------------|
-| Username | `editor`                       |
-| Password | `EditorPass42!`                |
-| Email    | `editor@login.42.fr`           |
-| Role     | Editor (can write/edit posts)  |
-
-### MariaDB (Database)
-| Field         | Value (from `.env`)       |
-|---------------|---------------------------|
-| Root user     | `root` (no password via socket) |
-| App user      | `MYSQL_USER` value        |
-| App password  | `MYSQL_PASSWORD` value    |
-| Database name | `MYSQL_DB` value          |
-
----
+All credentials are stored in `srcs/.env`.
 
 ## Checking That Services Are Running Correctly
 
@@ -143,7 +104,7 @@ Look for `Protocol: TLSv1.2` or `TLSv1.3`.
 
 ### 4. WordPress is installed (not the setup wizard)
 ```bash
-curl -k https://127.0.0.1 -H "Host: login.42.fr" | grep -i "title"
+curl -k https://ychattou.42.fr" | grep -i "title"
 ```
 You should see your site title (e.g. `incep webpage`), not `WordPress Installation`.
 
@@ -152,7 +113,7 @@ You should see your site title (e.g. `incep webpage`), not `WordPress Installati
 docker volume inspect mariadb
 docker volume inspect wordpress
 ```
-The `device` field should show `/home/yourlogin/data/mariadb` and `/home/yourlogin/data/wordpress`.
+The `device` field should show `/home/ychattou/data/mariadb` and `/home/ychattou/data/wordpress`.
 
 ### 6. Docker network is active
 ```bash
@@ -171,13 +132,13 @@ SHOW TABLES;
 You should see WordPress tables like `wp_users`, `wp_posts`, `wp_comments`.
 
 ### 8. Adding a comment (as editor)
-- Log in at `https://192.168.56.x/wp-admin` with the editor account
+- Log in at `https://ychattou.42.fr/wp-admin` with the editor account
 - Open any blog post
 - Scroll to the comment section and post a comment
 - Verify it appears on the page
 
 ### 9. Data persists after reboot
-After rebooting the VM:
+After rebooting the VM in case the dockers are down:
 ```bash
 docker-compose -f ./srcs/docker-compose.yml up -d
 ```
@@ -194,11 +155,6 @@ This is correct behaviour — port 80 is intentionally blocked.
 
 ### Browser shows certificate warning
 This is expected with a self-signed certificate. Click **Advanced → Proceed**.
-
-### Cannot reach the site from main machine
-- Check your VM network adapter is set to **Host-only** in VirtualBox
-- Get the correct VM IP with `ip a` (look under `enp0s8`)
-- Make sure containers are running with `docker-compose ps`
 
 ### WordPress shows the installation wizard
 The database connection failed during setup. Run:
