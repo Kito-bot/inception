@@ -71,22 +71,22 @@ All environment variables are stored in `srcs/.env`. This file must exist before
 DOMAIN_NAME=login.42.fr
 
 # MariaDB
-MYSQL_DB=wordpress
-MYSQL_USER=wpuser
-MYSQL_PASSWORD=wppassword
-MYSQL_ROOT_PASSWORD=rootpassword
+MYSQL_DB=
+MYSQL_USER=
+MYSQL_PASSWORD=
+MYSQL_ROOT_PASSWORD=
 
 # WordPress Admin (super admin)
-WP_ADMIN_N=supervisor42
-WP_ADMIN_P=SuperPass42!
-WP_ADMIN_E=super@login.42.fr
-WP_TITLE=My WordPress Site
+WP_ADMIN_N=
+WP_ADMIN_P=
+WP_ADMIN_E=
+WP_TITLE=
 
 # WordPress Extra User
-WP_U_NAME=editor
-WP_U_PASS=EditorPass42!
-WP_U_ROLE=editor
-WP_U_EMAIL=editor@login.42.fr
+WP_U_NAME=
+WP_U_PASS=
+WP_U_ROLE=
+WP_U_EMAIL=
 ```
 
 > **Security note**: Never commit `.env` to version control.
@@ -99,8 +99,8 @@ NGINX uses a self-signed certificate located inside the NGINX container. The cer
 
 ```nginx
 ssl_protocols TLSv1.2 TLSv1.3;
-ssl_certificate /path/to/incept.crt;
-ssl_certificate_key /path/to/incept.key;
+ssl_certificate /path/to/inception.crt;
+ssl_certificate_key /path/to/inception.key;
 ```
 
 ---
@@ -246,10 +246,6 @@ docker exec -it mariadb mysql -u root
 SELECT user, host FROM mysql.user;
 SHOW GRANTS FOR 'wpuser'@'%';
 ```
-
-### Port 443 not reachable from host machine
-- Ensure your VM network adapter is set to **Host-only** or **Bridged** in VirtualBox
-- Check the VM IP with `ip a` and use the `enp0s8` interface IP (Host-only: `192.168.56.x`)
 
 ### Volume mountpoint on /var instead of /home
 Old volumes are being reused. Run `docker-compose down -v` to remove them, then rebuild.
