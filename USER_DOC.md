@@ -65,7 +65,7 @@ Click the **padlock icon** in your browser's address bar to view the SSL certifi
 ### Confirm HTTP is blocked
 Trying to access via HTTP should fail:
 ```bash
-curl http://192.168.56.x:80
+curl http://ychattou.42.fr
 # Expected: Connection refused
 ```
 
@@ -84,7 +84,7 @@ All credentials are stored in `srcs/.env`.
 
 ## Checking That Services Are Running Correctly
 
-### 1. All containers are up
+### 1. Containers current status
 ```bash
 docker-compose -f ./srcs/docker-compose.yml ps
 ```
