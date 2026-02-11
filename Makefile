@@ -1,8 +1,8 @@
 # ======================
 #      PATHS
 # ======================
-WP_DATA = /home/data/wordpress
-DB_DATA = /home/data/mariadb
+WP_DATA = /home/ychattou/data/wordpress
+DB_DATA = /home/ychattou/data/mariadb
 
 # ======================
 #      DEFAULT
@@ -55,5 +55,5 @@ re: clean up
 # ======================
 #      FULL CLEAN
 # ======================
-prune: clean
+fclean: clean
 	@docker system prune -a --volumes -f
